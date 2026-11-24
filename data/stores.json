@@ -1,0 +1,11 @@
+{
+  "info": "Una tienda solo sale en la web si cumple los 5 criterios y cada uno tiene un enlace que lo demuestra (source).",
+  "criteria": {
+    "legal_company_data": "Empresa con datos legales visibles",
+    "real_reviews": "Opiniones reales de clientes con buena nota",
+    "secure_payment": "Pago protegido (tarjeta o PayPal)",
+    "returns_14_days": "Devoluciones en al menos 14 días",
+    "real_shipping_times": "Plazos de envío reales publicados y país de envío"
+  },
+  "stores": []
+}
