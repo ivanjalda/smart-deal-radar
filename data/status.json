@@ -1,0 +1,24 @@
+{
+  "engine": "deal_radar_engine",
+  "last_run": "2026-11-24T20:36:13.221730+00:00",
+  "ok": true,
+  "errors": [],
+  "products_in": 0,
+  "deals_out": 0,
+  "alerts_out": 0,
+  "stores_total": 0,
+  "stores_verified": 0,
+  "deals_by_menu": {
+    "moda": 0,
+    "tecnologia": 0,
+    "supermercado": 0,
+    "belleza": 0,
+    "viajes": 0
+  },
+  "skipped": {
+    "store_not_verified": 0,
+    "price_too_old": 0,
+    "no_valid_offer": 0,
+    "bad_menu": 0
+  }
+}
