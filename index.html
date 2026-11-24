@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Deal & Price Radar · Ofertas reales verificadas</title>
+<meta name="description" content="Comparador de precios reales: moda, tecnología, supermercado, belleza y viajes. Ahorro medido contra la media real de 90 días y solo tiendas verificadas.">
+<meta name="theme-color" content="#0b0f17">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='30' fill='%230b0f17' stroke='%2322d3a6' stroke-width='4'/><path d='M32 32 L52 18' stroke='%2322d3a6' stroke-width='4' stroke-linecap='round'/><circle cx='32' cy='32' r='5' fill='%23f5c542'/></svg>">
+<!-- Cloudflare Web Analytics (sin cookies): pegar aquí el script cuando se active -->
+<style>
+:root{
+  --bg:#0b0f17;--bg2:#111827;--card:#151d2b;--line:#243044;
+  --txt:#e8edf5;--muted:#93a1b8;--acc:#22d3a6;--gold:#f5c542;--red:#ff5d6c;--blue:#5aa9ff;
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--txt);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.wrap{width:100%;padding:0 clamp(12px,2.5vw,40px)}
+
+/* Cabecera */
+header{position:sticky;top:0;z-index:20;background:rgba(11,15,23,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top{display:flex;align-items:center;gap:16px;height:62px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;white-space:nowrap}
+.logo b{color:var(--acc)}
+.logo i{font-style:normal;color:var(--gold)}
+.search{flex:1;max-width:560px;margin-left:auto}
+.search input{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:999px;padding:10px 16px;color:var(--txt);outline:none}
+.search input:focus{border-color:var(--acc)}
+nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding-bottom:8px}
+nav::-webkit-scrollbar{display:none}
+nav button{padding:9px 16px;border-radius:10px;font-weight:600;color:var(--muted);white-space:nowrap}
+nav button:hover{color:var(--txt);background:var(--bg2)}
+nav button.on{color:#06130f;background:var(--acc)}
+
+/* Barra de filtros */
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:14px 0}
+.chip{padding:7px 13px;border:1px solid var(--line);border-radius:999px;font-size:13px;color:var(--muted);background:var(--bg2)}
+.chip.on{border-color:var(--acc);color:var(--acc)}
+.chip.d{font-weight:700}
+.chip.d.on{background:var(--red);border-color:var(--red);color:#fff}
+.sep{width:1px;height:24px;background:var(--line);margin:0 6px}
+
+/* Portada */
+.hero{display:grid;grid-template-columns:2fr 1fr;gap:18px;padding:22px 0 8px}
+.hero .main{background:linear-gradient(135deg,#0f2a24,#111827 60%);border:1px solid var(--line);border-radius:var(--r);padding:clamp(20px,3vw,40px)}
+.hero h1{font-size:clamp(24px,3.2vw,42px);line-height:1.15;margin-bottom:10px}
+.hero h1 span{color:var(--acc)}
+.hero p{color:var(--muted);max-width:720px}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pill{font-size:13px;padding:6px 12px;border-radius:999px;background:rgba(34,211,166,.12);color:var(--acc)}
+.side{display:grid;gap:12px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.box h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:10px}
+.stat{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--line);font-size:14px}
+.stat:last-child{border:0}
+.stat b{color:var(--acc)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:12px 0}
+h2{font-size:20px;margin:26px 0 4px;display:flex;align-items:center;gap:10px}
+h2 small{font-size:13px;color:var(--muted);font-weight:400}
+.empty{color:var(--muted);font-size:14px;padding:14px;border:1px dashed var(--line);border-radius:10px;text-align:center}
+.news a{display:block;padding:9px 0;border-bottom:1px solid var(--line)}
+.news a:hover{color:var(--acc)}
+.news small{color:var(--muted);display:block}
+
+/* Tarjetas de producto */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;padding:6px 0 30px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column}
+.card .img{aspect-ratio:4/3;background:#0e1420 center/contain no-repeat}
+.card .bd{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.badges{display:flex;flex-wrap:wrap;gap:6px}
+.bdg{font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;background:rgba(245,197,66,.14);color:var(--gold)}
+.bdg.hist{background:rgba(255,93,108,.15);color:var(--red)}
+.card h4{font-size:15px;line-height:1.3}
+.brand{color:var(--muted);font-size:12px}
+.best{display:flex;align-items:flex-end;justify-content:space-between;gap:8px}
+.price{font-size:26px;font-weight:800}
+.save{background:var(--red);color:#fff;font-weight:800;border-radius:8px;padding:4px 8px}
+.meta{font-size:12px;color:var(--muted)}
+.unit{color:var(--blue);font-weight:700;font-size:13px}
+.others{border-top:1px solid var(--line);padding-top:8px;font-size:13px}
+.others div{display:flex;justify-content:space-between;padding:2px 0;color:var(--muted)}
+.go{margin-top:auto;display:block;text-align:center;background:var(--acc);color:#06130f;font-weight:800;padding:11px;border-radius:10px}
+.seal{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--acc);border:1px solid rgba(34,211,166,.4);padding:3px 8px;border-radius:6px}
+
+/* Secciones vacías */
+.sectiongrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:10px 0}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.sec b{display:block;margin-bottom:4px}
+.sec span{color:var(--muted);font-size:13px}
+
+/* Ventana del sello */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:50;padding:16px}
+.modal.on{display:flex}
+.modal .in{background:var(--bg2);border:1px solid var(--line);border-radius:var(--r);max-width:560px;width:100%;padding:22px;max-height:90vh;overflow:auto}
+.modal h3{margin-bottom:10px}
+.modal li{list-style:none;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+.modal .x{float:right;font-size:22px;color:var(--muted)}
+
+footer{border-top:1px solid var(--line);margin-top:30px;padding:28px 0;color:var(--muted);font-size:13px}
+footer .cols{display:grid;grid-template-columns:2fr 1fr 1fr;gap:24px}
+footer h5{color:var(--txt);font-size:14px;margin-bottom:8px}
+footer a{display:block;padding:3px 0}
+footer a:hover{color:var(--acc)}
+
+@media (max-width:900px){
+  .hero,.grid3,footer .cols{grid-template-columns:1fr}
+  .search{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <a class="logo" href="#" onclick="go('inicio');return false">📡 Smart <b>Deal</b> <i>Radar</i></a>
+      <div class="search"><input id="q" type="search" placeholder="Busca un producto, marca o destino…" oninput="render()"></div>
+    </div>
+    <nav id="nav"></nav>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="in" id="modalIn"></div></div>
+
+<footer>
+  <div class="wrap cols">
+    <div>
+      <h5>Smart Deal & Price Radar</h5>
+      <p>Comparamos precios reales. El ahorro se calcula contra la media real de los últimos 90 días, no contra el precio tachado de la tienda. Solo mostramos tiendas que cumplen todos nuestros criterios de fiabilidad.</p>
+      <p style="margin-top:10px">© <span id="yr"></span> Community16 LLC · Albuquerque, Nuevo México, EE. UU. · community16jalda@gmail.com</p>
+    </div>
+    <div>
+      <h5>Información</h5>
+      <a href="#" onclick="showCriteria();return false">Cómo verificamos las tiendas</a>
+      <a href="#" onclick="showLegal('afiliacion');return false">Enlaces de afiliación</a>
+      <a href="#" onclick="showLegal('privacidad');return false">Privacidad</a>
+      <a href="#" onclick="showLegal('aviso');return false">Aviso legal</a>
+    </div>
+    <div>
+      <h5>Avisos</h5>
+      <a href="#" onclick="return false">Canal de Telegram (próximamente)</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+const MENUS = {
+  inicio:{name:"🏠 Inicio"},
+  moda:{name:"👕 Moda",sections:{
+    "mujer":["Mujer","Ropa de marca para mujer"],
+    "hombre":["Hombre","Ropa de marca para hombre"],
+    "calzado-complementos":["Calzado y complementos","Zapatillas, bolsos, relojes…"],
+    "outlets-ventas-privadas":["Outlets y ventas privadas","Clubes de venta y liquidaciones"]}},
+  tecnologia:{name:"💻 Tecnología",sections:{
+    "moviles-tablets":["Móviles y tablets",""],
+    "ordenadores-componentes":["Ordenadores y componentes",""],
+    "gaming-consolas":["Gaming y consolas",""],
+    "tv-audio":["TV, audio y sonido",""],
+    "perifericos":["Periféricos","Teclados, ratones, auriculares…"]}},
+  supermercado:{name:"🛒 Supermercado",sections:{
+    "despensa":["Despensa y básicos","Precio por kilo y por litro"],
+    "bebidas":["Bebidas","Agua, café, refrescos, bodega"],
+    "proteinas-saludable":["Proteínas y saludable",""],
+    "packs-ahorro":["Packs ahorro","Cuánto sale de verdad cada unidad"],
+    "liquidaciones":["Liquidaciones","Por fecha de consumo preferente"]}},
+  belleza:{name:"✨ Belleza",sections:{
+    "cremas-serums":["Cremas y sérums","Precio por mililitro"],
+    "alternativas":["Alternativas más baratas","Misma fórmula, menos precio"],
+    "tratamientos-clinicas":["Tratamientos y clínicas","Bótox, rellenos, cirugías"]}},
+  viajes:{name:"✈️ Viajes",sections:{
+    "vuelos":["Vuelos","Los más baratos por destino"],
+    "cuando-volar":["Cuándo volar y comprar","Día, hora y antelación con datos reales"],
+    "ofertas-vuelos":["Ofertas de vuelos","Bajadas fuertes de precio"],
+    "vuelo-hotel":["Vuelo + hotel",""],
+    "hoteles":["Hoteles",""],
+    "apartamentos":["Apartamentos y casas",""],
+    "entradas-atracciones":["Entradas y atracciones","Parques, museos, monumentos"]}}
+};
+const CRIT = {
+  legal_company_data:"Empresa con datos legales visibles",
+  real_reviews:"Opiniones reales de clientes con buena nota",
+  secure_payment:"Pago protegido (tarjeta o PayPal)",
+  returns_14_days:"Devoluciones en al menos 14 días",
+  real_shipping_times:"Plazos de envío reales y país desde el que se envía"
+};
+
+let S = {menu:"inicio", section:null, band:0};
+let D = {deals:[], stores:[]}, ST = null, CAMP = [], NEWS = [];
+
+const $ = s => document.querySelector(s);
+const eur = n => n==null ? "" : n.toLocaleString("es-ES",{style:"currency",currency:"EUR"});
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = u => /^https?:\/\//i.test(u||"") ? u : "#";
+
+async function getJSON(p, def){
+  try{ const r = await fetch(p+"?v="+Date.now()); if(!r.ok) throw 0; return await r.json(); }
+  catch(e){ return def; }
+}
+
+function go(menu, section=null){
+  S.menu = menu; S.section = section;
+  history.replaceState(null,"","#"+menu+(section?"/"+section:""));
+  render(); window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function navHTML(){
+  return Object.entries(MENUS).map(([k,m]) =>
+    `<button class="${S.menu===k?"on":""}" onclick="go('${k}')">${m.name}</button>`).join("");
+}
+
+function filtered(){
+  const q = ($("#q").value||"").trim().toLowerCase();
+  return D.deals.filter(d =>
+    (S.menu==="inicio" || d.menu===S.menu) &&
+    (!S.section || d.section===S.section) &&
+    (!S.band || (d.saving_pct||0) >= S.band) &&
+    (!q || (d.name+" "+d.brand+" "+d.best.store_name).toLowerCase().includes(q)));
+}
+
+function barHTML(){
+  const m = MENUS[S.menu];
+  let h = `<div class="bar">`;
+  if (m.sections){
+    h += `<button class="chip ${!S.section?"on":""}" onclick="go('${S.menu}')">Todo</button>`;
+    for (const [k,v] of Object.entries(m.sections))
+      h += `<button class="chip ${S.section===k?"on":""}" onclick="go('${S.menu}','${k}')">${v[0]}</button>`;
+    h += `<span class="sep"></span>`;
+  }
+  for (const b of [0,50,60,70])
+    h += `<button class="chip d ${S.band===b?"on":""}" onclick="S.band=${b};render()">${b?"-"+b+"%"+(b===70?" o más":""):"Cualquier bajada"}</button>`;
+  return h + `</div>`;
+}
+
+function cardHTML(d){
+  const b = d.best;
+  const badges = d.badges.map(x=>`<span class="bdg ${x==="Mínimo Histórico"?"hist":""}">${esc(x)}</span>`).join("");
+  const others = d.others.slice(0,4).map(o=>`<div><span>${esc(o.store_name)}</span><span>${eur(o.price)}${o.unit_price?` · ${o.unit_price.value} ${o.unit_price.label}`:""}</span></div>`).join("");
+  return `<article class="card">
+    ${d.image?`<div class="img" style="background-image:url('${esc(safeUrl(d.image))}')"></div>`:""}
+    <div class="bd">
+      ${badges?`<div class="badges">${badges}</div>`:""}
+      <span class="brand">${esc(d.brand)}</span>
+      <h4>${esc(d.name)}</h4>
+      <div class="best"><span class="price">${eur(b.price)}</span>${d.saving_pct?`<span class="save">-${Math.round(d.saving_pct)}%</span>`:""}</div>
+      ${b.unit_price?`<span class="unit">${b.unit_price.value} ${b.unit_price.label}</span>`:""}
+      <span class="meta">Mejor precio en <b>${esc(b.store_name)}</b>${b.avg90?` · media 90 días: ${eur(b.avg90)}`:""}</span>
+      <span><button class="seal" onclick="showStore('${esc(b.store)}')">🛡️ Tienda verificada</button></span>
+      ${others?`<div class="others">${others}</div>`:""}
+      <a class="go" href="${esc(safeUrl(b.url))}" target="_blank" rel="nofollow sponsored noopener">Ver oferta en ${esc(b.store_name)}</a>
+    </div></article>`;
+}
+
+function emptyMsg(){
+  return `<div class="empty">Todavía no hay ofertas que pasen todos nuestros filtros en esta sección.<br>
+  Solo publicamos precios reales, actualizados en las últimas 48 horas y de tiendas verificadas. Si no se cumple, no se muestra.</div>`;
+}
+
+function homeHTML(){
+  const deals = filtered();
+  const s = ST || {};
+  return `
+  <section class="hero">
+    <div class="main">
+      <h1>Ofertas <span>reales</span>, no falsas rebajas.</h1>
+      <p>Comparamos el mismo producto en varias tiendas y medimos el ahorro contra su precio medio real de los últimos 90 días. Solo tiendas que cumplen todos nuestros criterios de fiabilidad.</p>
+      <div class="pills"><span class="pill">📉 Ahorro frente a la media de 90 días</span><span class="pill">🛡️ Tiendas verificadas</span><span class="pill">⏱️ Precios de menos de 48 h</span></div>
+    </div>
+    <div class="side">
+      <div class="box"><h3>Radar en directo</h3>
+        <div class="stat"><span>Ofertas verificadas</span><b>${s.deals_out??0}</b></div>
+        <div class="stat"><span>Tiendas verificadas</span><b>${s.stores_verified??0}</b></div>
+        <div class="stat"><span>Chollos de -50% o más</span><b>${s.alerts_out??0}</b></div>
+        <div class="stat"><span>Última revisión</span><b>${s.last_run?new Date(s.last_run).toLocaleString("es-ES"):"—"}</b></div>
+      </div>
+    </div>
+  </section>
+  ${barHTML()}
+  <h2>🔥 Chollos del día <small>ordenados por ahorro real</small></h2>
+  ${deals.length?`<div class="cards">${deals.slice(0,24).map(cardHTML).join("")}</div>`:emptyMsg()}
+  <div class="grid3">
+    <div class="box"><h3>📢 Rebajas y campañas</h3>${CAMP.length?`<div class="news">${CAMP.slice(0,6).map(c=>`<a href="${esc(safeUrl(c.url))}" target="_blank" rel="noopener">${esc(c.title)}<small>${esc(c.store||"")} ${esc(c.dates||"")}</small></a>`).join("")}</div>`:`<div class="empty">Sin campañas confirmadas ahora mismo.</div>`}</div>
+    <div class="box"><h3>📰 Actualidad</h3>${NEWS.length?`<div class="news">${NEWS.slice(0,6).map(n=>`<a href="${esc(safeUrl(n.url))}" target="_blank" rel="noopener">${esc(n.title)}<small>${esc(n.source||"")}</small></a>`).join("")}</div>`:`<div class="empty">Las noticias llegarán de medios reales, con su fuente.</div>`}</div>
+    <div class="box"><h3>💡 Te interesa</h3>
+      <div class="news">
+        <a href="#" onclick="showCriteria();return false">Cómo sabemos si una tienda es fiable<small>Los 5 criterios que debe cumplir</small></a>
+        <a href="#" onclick="showHow();return false">Cómo detectamos una falsa rebaja<small>La media real de 90 días</small></a>
+        <a href="#" onclick="go('supermercado');return false">Mira el precio por kilo o litro<small>Para que el envase no te engañe</small></a>
+      </div>
+    </div>
+  </div>
+  <h2>🧭 Explora por menú</h2>
+  <div class="sectiongrid">${Object.entries(MENUS).filter(([k])=>k!=="inicio").map(([k,m])=>
+    `<button class="sec" onclick="go('${k}')" style="text-align:left"><b>${m.name}</b><span>${Object.values(m.sections).map(v=>v[0]).join(" · ")}</span></button>`).join("")}</div>`;
+}
+
+function menuHTML(){
+  const m = MENUS[S.menu], deals = filtered();
+  const title = S.section ? m.sections[S.section][0] : m.name;
+  const sub = S.section ? m.sections[S.section][1] : "";
+  return `<h2 style="margin-top:22px">${esc(title)} <small>${esc(sub)}</small></h2>
+  ${barHTML()}
+  ${deals.length?`<div class="cards">${deals.map(cardHTML).join("")}</div>`:emptyMsg()}`;
+}
+
+function render(){
+  $("#nav").innerHTML = navHTML();
+  $("#app").innerHTML = S.menu==="inicio" ? homeHTML() : menuHTML();
+}
+
+function openModal(h){ $("#modalIn").innerHTML = `<button class="x" onclick="closeModal()">×</button>`+h; $("#modal").classList.add("on"); }
+function closeModal(){ $("#modal").classList.remove("on"); }
+
+function showStore(id){
+  const s = D.stores.find(x=>x.id===id); if(!s) return;
+  openModal(`<h3>🛡️ ${esc(s.name)}: tienda verificada</h3>
+  <p class="meta">Verificada según nuestros criterios${s.checked_on?" · revisado el "+esc(s.checked_on):""}${s.ships_from?" · envía desde "+esc(s.ships_from):""}</p>
+  <ul style="margin-top:10px">${Object.entries(CRIT).map(([k,v])=>{const c=(s.checks||{})[k]||{};
+    return `<li>✅ ${v}${c.note?`<br><small class="meta">${esc(c.note)}</small>`:""}${c.source?`<br><a class="meta" style="color:var(--acc)" href="${esc(safeUrl(c.source))}" target="_blank" rel="noopener">Ver la prueba</a>`:""}</li>`}).join("")}</ul>
+  <p class="meta" style="margin-top:12px">Revisamos cómo funciona la tienda en general. No podemos seguir cada pedido, por eso indicamos dónde comprobarlo.</p>`);
+}
+function showCriteria(){
+  openModal(`<h3>Cómo verificamos las tiendas</h3><p class="meta">Una tienda solo aparece si cumple los 5 criterios, y cada uno con un enlace que lo demuestra:</p>
+  <ul style="margin-top:10px">${Object.values(CRIT).map(v=>`<li>✅ ${v}</li>`).join("")}</ul>
+  <p class="meta" style="margin-top:12px">Si a una tienda le falta uno solo, no se muestra ninguno de sus productos.</p>`);
+}
+function showHow(){
+  openModal(`<h3>Cómo detectamos una falsa rebaja</h3>
+  <p>Muchas tiendas suben el precio antes de rebajarlo. Por eso no usamos el precio tachado: guardamos el precio real de cada producto y calculamos su media de los últimos 90 días.</p>
+  <ul style="margin-top:10px"><li>🔴 <b>Mínimo Histórico</b>: el precio de hoy es el más bajo de los últimos 90 días.</li>
+  <li>🟡 <b>Por debajo de la media</b>: más barato que su precio medio real.</li>
+  <li>🟡 <b>Más barato que en Outlet</b>: más barato que en los outlets que comparamos.</li>
+  <li>Si un producto tiene menos de 30 días de historial, no mostramos porcentaje de ahorro.</li></ul>`);
+}
+function showLegal(t){
+  const txt = {
+    afiliacion:`<h3>Enlaces de afiliación</h3><p>Algunos enlaces son de afiliación: si compras a través de ellos, podemos recibir una comisión sin coste extra para ti. Esto nunca cambia el orden de las ofertas, que se ordenan solo por ahorro real.</p>`,
+    privacidad:`<h3>Privacidad</h3><p>Esta web no usa cookies. Medimos las visitas de forma anónima con Cloudflare Web Analytics, sin cookies y sin datos personales. Responsable: Community16 LLC (Albuquerque, Nuevo México, EE. UU.). Contacto: community16jalda@gmail.com</p>`,
+    aviso:`<h3>Aviso legal</h3><p>Titular: Community16 LLC, Albuquerque, Nuevo México, EE. UU. Contacto: community16jalda@gmail.com.</p><p style="margin-top:8px">Los precios cambian con frecuencia: el precio válido es siempre el de la tienda en el momento de la compra. "Verificada" significa que la tienda cumple nuestros criterios publicados; no es una garantía sobre cada pedido.</p>`
+  };
+  openModal(txt[t]);
+}
+
+async function init(){
+  $("#yr").textContent = new Date().getFullYear();
+  const h = location.hash.slice(1).split("/");
+  if (MENUS[h[0]]) { S.menu = h[0]; if (h[1] && MENUS[h[0]].sections?.[h[1]]) S.section = h[1]; }
+  render();
+  [D, ST, CAMP, NEWS] = await Promise.all([
+    getJSON("data/deals.json",{deals:[],stores:[]}),
+    getJSON("data/status.json",null),
+    getJSON("data/campaigns.json",{campaigns:[]}).then(x=>x.campaigns||[]),
+    getJSON("data/news.json",{news:[]}).then(x=>x.news||[])
+  ]);
+  D.deals ||= []; D.stores ||= [];
+  render();
+}
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") closeModal(); });
+init();
+</script>
+</body>
+</html>
